@@ -6,8 +6,7 @@
 #include <GL/glew.h>
 
 #include "Game.h"
-
-#define GLEW_STATIC
+#include "ResourceManager.h"
 
 const GLuint SCREEN_WIDTH = 800;
 const GLuint SCREEN_HEIGHT = 600;
@@ -29,7 +28,6 @@ int main(int argc, char* argv[])
 	}
 
 	SDL_Window* window = SDL_CreateWindow("Breakout", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_OPENGL);
-
 
 	//OpenGL Init
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
@@ -83,6 +81,9 @@ int main(int argc, char* argv[])
 
 		SDL_GL_SwapWindow(window);
 	}
+
+	SDL_DestroyWindow(window);
+	ResourceManager::Clear();
 
 	return 0;
 }

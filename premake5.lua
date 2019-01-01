@@ -26,7 +26,7 @@ project "Breakout"
 	{
 		"Breakout/src",
 		"vendor/sdl/include",
-		"vendor/glm/include",
+		"vendor/glm",
 		"vendor/glew/include"
 	}
 	
