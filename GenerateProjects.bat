@@ -1,2 +1,2 @@
-call vendor\premake\premake5.exe vs2017
+call premake5.exe vs2017
 PAUSE
