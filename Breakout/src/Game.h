@@ -1,5 +1,8 @@
 #pragma once
 
+#include <GL/glew.h>
+#include "SDL.h"
+
 enum GameState
 {
 	GAME_ACTIVE,

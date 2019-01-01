@@ -18,20 +18,27 @@ project "Breakout"
 
 	files
 	{
-		"src/**.h",
-		"src/**.cpp"
+		"Breakout/src/**.h",
+		"Breakout/src/**.cpp"
 	}
 
 	includedirs
 	{
-		"src",
-		"vendor/SDL/include",
+		"Breakout/src",
+		"vendor/sdl/include",
 		"vendor/glm/include",
 		"vendor/glew/include"
 	}
 	
+	libdirs
+	{
+		"vendor/sdl/lib/x64",
+		"vendor/glew/lib/Release/x64"
+	}
+	
 	links
 	{
+		"SDL2.lib",
 		"SDL2main.lib",
 		"glew32.lib",
 		"opengl32.lib"
@@ -44,8 +51,13 @@ project "Breakout"
 
 		defines
 		{
-			"PLATFORM_WINDOWS",
-			"BUILD_DLL"
+			"PLATFORM_WINDOWS"
+		}
+		
+		postbuildcommands
+		{
+			("{COPY} %{wks.location}vendor/sdl/lib/x64/SDL2.dll %{wks.location}bin/%{outputdir}/Breakout"),
+			("{COPY} %{wks.location}vendor/glew/bin/Release/x64/glew32.dll %{wks.location}bin/%{outputdir}/Breakout")
 		}
 
 	filter "configurations:Debug"
