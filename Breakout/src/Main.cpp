@@ -4,6 +4,7 @@
 
 #include <SDL.h>
 #include <GL/glew.h>
+#include <sstream>
 
 #include "Game.h"
 #include "ResourceManager.h"
@@ -63,15 +64,26 @@ int main(int argc, char* argv[])
 
 	Breakout.State = GAME_ACTIVE;
 
-	while(isRunning)
+	while (isRunning)
 	{
-		SDL_PumpEvents();
-		Breakout.Keys = SDL_GetKeyboardState(NULL);
+		//Check for QUIT Event
+		SDL_Event event;
+		SDL_PollEvent(&event);
+		if (event.type == SDL_QUIT)
+			isRunning = false;
 
 		//Calculate delta time
 		GLfloat currentFrame = SDL_GetTicks();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
+		
+		//Update Window Title
+		std::stringstream ss;
+		ss << "Breakout | " << deltaTime << " ms";
+		SDL_SetWindowTitle(window, ss.str().c_str());
+
+		//Get Input
+		Breakout.Keys = SDL_GetKeyboardState(NULL);
 
 		//Manage Input
 		Breakout.ProcessInput(deltaTime);
