@@ -6,6 +6,7 @@
 #include "SpriteRenderer.h"
 #include "ResourceManager.h"
 #include "GameLevel.h"
+#include "BallObject.h"
 
 enum GameState
 {

@@ -82,11 +82,12 @@ int main(int argc, char* argv[])
 		ss << "Breakout | " << deltaTime << " ms";
 		SDL_SetWindowTitle(window, ss.str().c_str());
 
-		//Get Input
+		//Input
 		Breakout.Keys = SDL_GetKeyboardState(NULL);
-
-		//Manage Input
 		Breakout.ProcessInput(deltaTime);
+
+		//Game Update
+		Breakout.Update(deltaTime);
 
 		//Render
 		glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
