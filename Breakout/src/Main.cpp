@@ -65,8 +65,8 @@ int main(int argc, char* argv[])
 
 	while(isRunning)
 	{
-		SDL_Event event;
-		SDL_PollEvent(&event);
+		SDL_PumpEvents();
+		Breakout.Keys = SDL_GetKeyboardState(NULL);
 
 		//Calculate delta time
 		GLfloat currentFrame = SDL_GetTicks();

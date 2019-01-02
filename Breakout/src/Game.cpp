@@ -2,6 +2,11 @@
 
 SpriteRenderer* Renderer;
 
+const glm::vec2 PLAYER_SIZE(100, 20);
+const GLfloat PLAYER_VELOCITY(1.0f);
+
+GameObject* Player;
+
 Game::Game(GLuint width, GLuint height)
 {
 	this->Width = width;
@@ -16,21 +21,60 @@ void Game::Init()
 {
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-	// Load shaders
+	//Load textures
+	ResourceManager::LoadTexture("res//textures//background.jpg", GL_FALSE, "background");
+	ResourceManager::LoadTexture("res//textures//block.png", GL_FALSE, "block");
+	ResourceManager::LoadTexture("res//textures//block_solid.png", GL_FALSE, "block_solid");
+	ResourceManager::LoadTexture("res//textures//paddle.png", GL_TRUE, "paddle");
+
+	//Load levels
+	GameLevel one; one.Load("res//levels//01.txt", this->Width, this->Height * 0.5f);
+	GameLevel two; two.Load("res//levels//02.txt", this->Width, this->Height * 0.5f);
+	GameLevel three; three.Load("res//levels//03.txt", this->Width, this->Height * 0.5f);
+	GameLevel four; four.Load("res//levels//04.txt", this->Width, this->Height * 0.5f);
+
+	this->Levels.push_back(one);
+	this->Levels.push_back(two);
+	this->Levels.push_back(three);
+	this->Levels.push_back(four);
+
+	this->Level = 0;
+
+	//Configure player
+	glm::vec2 playerPos = glm::vec2(this->Width / 2 - PLAYER_SIZE.x, this->Height - PLAYER_SIZE.y);
+	Player = new GameObject(playerPos, PLAYER_SIZE, ResourceManager::GetTexture("paddle"));
+
+	//Load shaders
 	ResourceManager::LoadShader("res//shaders//Sprite.vs", "res//shaders//Sprite.fs", nullptr, "sprite");
-	// Configure shaders
+	//Configure shaders
 	glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->Width),
 		static_cast<GLfloat>(this->Height), 0.0f, -1.0f, 1.0f);
 	ResourceManager::GetShader("sprite").Use().SetInteger("image", 0);
 	ResourceManager::GetShader("sprite").SetMatrix4("projection", projection);
 	// Set render-specific controls
 	Renderer = new SpriteRenderer(ResourceManager::GetShader("sprite"));
-	// Load textures
-	ResourceManager::LoadTexture("res//textures//test.png", GL_TRUE, "face");
 }
 
 void Game::ProcessInput(GLfloat dt)
 {
+	if (this->State == GAME_ACTIVE)
+	{
+		GLfloat velocity = PLAYER_VELOCITY * dt;
+
+		if (Keys[SDL_SCANCODE_LEFT] || Keys[SDL_SCANCODE_A])
+		{
+			if (Player->Position.x >= 0)
+			{
+				Player->Position.x -= velocity;
+			}
+		}
+
+		if (Keys[SDL_SCANCODE_RIGHT] || Keys[SDL_SCANCODE_D])
+		{
+			if (Player->Position.x <= this->Width - Player->Size.x)
+				Player->Position.x += velocity;
+		}
+	}
 }
 
 void Game::Update(GLfloat dt)
@@ -39,6 +83,13 @@ void Game::Update(GLfloat dt)
 
 void Game::Render()
 {
-	Renderer->DrawSprite(ResourceManager::GetTexture("face"),
-		glm::vec2(200, 200), glm::vec2(300, 400), 45.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+	if (this->State == GAME_ACTIVE)
+	{
+		Renderer->DrawSprite(ResourceManager::GetTexture("background"),
+			glm::vec2(0, 0), glm::vec2(this->Width, this->Height), 0.0f);
+
+		this->Levels[this->Level].Draw(*Renderer);
+
+		Player->Draw(*Renderer);
+	}
 }

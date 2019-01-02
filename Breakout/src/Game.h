@@ -5,6 +5,7 @@
 
 #include "SpriteRenderer.h"
 #include "ResourceManager.h"
+#include "GameLevel.h"
 
 enum GameState
 {
@@ -17,8 +18,11 @@ class Game
 {
 public:
 	GameState State;
-	GLboolean Keys[1024];
+	const Uint8* Keys;
 	GLuint Width, Height;
+
+	std::vector<GameLevel> Levels;
+	GLuint Level;
 
 	Game(GLuint width, GLuint height);
 	~Game();
