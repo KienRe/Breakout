@@ -1,7 +1,10 @@
 #pragma once
 
 #include <GL/glew.h>
-#include "SDL.h"
+#include <SDL.h>
+
+#include "SpriteRenderer.h"
+#include "ResourceManager.h"
 
 enum GameState
 {

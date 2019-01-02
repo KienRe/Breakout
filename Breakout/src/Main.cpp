@@ -7,6 +7,7 @@
 
 #include "Game.h"
 #include "ResourceManager.h"
+#include "Debug.h"
 
 const GLuint SCREEN_WIDTH = 800;
 const GLuint SCREEN_HEIGHT = 600;
@@ -52,6 +53,7 @@ int main(int argc, char* argv[])
 	glEnable(GL_CULL_FACE);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glCheckError();
 
 	//Game Init
 	Breakout.Init();
@@ -75,7 +77,7 @@ int main(int argc, char* argv[])
 		Breakout.ProcessInput(deltaTime);
 
 		//Render
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(0.0f, 0.0f, 0.4f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 		Breakout.Render();
 

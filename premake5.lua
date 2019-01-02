@@ -13,8 +13,8 @@ project "Breakout"
 	kind "ConsoleApp"
 	language "C++"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("Breakout/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("Breakout/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files
 	{
@@ -56,8 +56,8 @@ project "Breakout"
 		
 		postbuildcommands
 		{
-			("{COPY} %{wks.location}vendor/sdl/lib/x64/SDL2.dll %{wks.location}bin/%{outputdir}/Breakout"),
-			("{COPY} %{wks.location}vendor/glew/bin/Release/x64/glew32.dll %{wks.location}bin/%{outputdir}/Breakout")
+			("{COPY} %{wks.location}vendor/sdl/lib/x64/SDL2.dll %{wks.location}Breakout/bin/%{outputdir}/Breakout"),
+			("{COPY} %{wks.location}vendor/glew/bin/Release/x64/glew32.dll %{wks.location}Breakout/bin/%{outputdir}/Breakout")
 		}
 
 	filter "configurations:Debug"
