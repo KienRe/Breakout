@@ -2,6 +2,7 @@
 
 #include <GL/glew.h>
 #include <SDL.h>
+#include <tuple>
 
 #include "SpriteRenderer.h"
 #include "ResourceManager.h"
@@ -14,6 +15,16 @@ enum GameState
 	GAME_MENU,
 	GAME_WIN
 };
+
+enum Direction
+{
+	UP,
+	RIGHT,
+	DOWN,
+	LEFT
+};
+
+typedef std::tuple<GLboolean, Direction, glm::vec2> Collision;
 
 class Game
 {
@@ -33,4 +44,13 @@ public:
 	void ProcessInput(GLfloat dt);
 	void Update(GLfloat dt);
 	void Render();
+
+private:
+	void DoCollisions();
+	GLboolean CheckCollision(GameObject& one, GameObject& two);
+	Collision CheckCollision(BallObject& one, GameObject& two);
+	Direction VectorDirection(glm::vec2 target);
+	// Reset
+	void ResetLevel();
+	void ResetPlayer();
 };
