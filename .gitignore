@@ -1,7 +1,7 @@
 # Directories
 .vs/
-bin/
-bin-int/
+/Breakout/bin/
+/Breakout/bin-int/
 
 # Files
 *.sln
